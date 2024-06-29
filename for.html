@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+<body>
+    <div class="content"></div>
+</body>
+<script stybe="text/javascript">
+  var count = 10;
+  async function foo(){
+    for (var i = count; i > 0; i --) {
+      var para = document.createElement('p');
+      para.textContent = '倒计时' + i;
+      var output = document.querySelector('.content');
+      output.appendChild(para);
+     await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+    var para = document.createElement('p');
+    para.textContent = '开始';
+    var output = document.querySelector('.content');
+    ooutput.appendChild(para);
+  }
+  foo();
+</script>
+</html>
