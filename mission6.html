@@ -93,9 +93,8 @@
   <div class="calc">
     <div class="show">
       <input type="text" id="formula">
-      <div id="OutputBlock"></div>
-      <div id="inputBlock"><span id="stack1"></span></div>
-      
+      <div id="OutputBlock"><span id="stack2"></span></div>
+      <div id="inputBlock" class="clearfix"><span id="stack1"></span></div>
     </div>
     <div class="panel clearfix">
 			<div class="digit">NEG</div>
@@ -128,17 +127,100 @@
 </body>
 
 <script type="text/javascript">
+  // JS写这
+  // 显示你按下的按钮
+  //  1. 获得按下的按钮
+  var stack1;
+  var op;
+  var stack2;
   var btns = document.querySelectorAll('.digit');
-  for (var i = 0; i < btns.length; i ++) {
-    btns[i].addEventListener('click' , foo);
-    // console.log(btns[i]);
-  } 
-   var stack1 = [];
-  function foo(event) {
-    stack1.push(event.target.innerHTML);
-    console.log(stack1);
-    document.querySelector('#stack1').innerHTML = stack1.join("");
-    // document.querySelector('.inputBlock').innerHTML = event.target.innerHTML;
+  for (var i = 0; i < btns.length; i ++){
+    btns[i].addEventListener('click',(event) => {
+      foo(event,stack1);
+    });
+    //console.log(btns[i]);
+  }
+
+  //初始化
+  init();
+  renderOutput(stack1.join(""));
+  //点击子后做的事情
+  function foo(event,stack1){
+    //如果我按了C
+    if (event.target.innerHTML == "C" || event.target.innerHTML == "CE"){
+      //展示零
+      init();
+      //初始化stack
+      renderOutput();
+      // document.querySelector('#stack1').innerHTML = 0;
+      // stack1= [];
+    }else if(event.target.innerHTML == '=') {
+      var num1 = toNum(stack1);
+      var num2 = toNum(stack2);
+      ans = eval(num2 + op + num1);
+      stack1 = ans.toString().split('');
+      console.log('stack1',stack1);
+      renderOutput(stack1);
+      op = '=';
+    } 
+    else {
+      if (event.target.innerHTML == '+' || event.target.innerHTML == '-' || event.target.innerHTML == '*' || event.target.innerHTML == '/'){
+        if (op == '=') {
+          stack2 = ans.toString().split('');
+          op = event.target.innerHTML;
+          renderOutput();
+          return;
+        }  
+        init();
+        stack2 = [].concat(stack1);
+        op = event.target.innerHTML;
+        renderOutput();
+      }else{
+        //如果只有一个零，那么我将把零去掉，变成输入的数值
+        if (stack1.length == 1 && stack1[0] =='0'){
+        //把零去掉
+        stack1.pop();
+        }
+        //console.log(stack1);
+       stack1.push(event.target.innerHTML);
+        //展示算式
+        renderOutput();
+      }
+    }
+    //document.querySelector('.inputBlock').innerHTML = event.target.innerHTML;
+  }
+  // 渲染输出
+  function renderOutput(stack1) {
+      document.querySelector("#stack1").innerHTML = stack1.join('');
+    if (op != null) {
+      document.querySelector("#stack2").innerHTML = stack2.join("")+ ' ' + op;
+    }
+    if (stack2.length == 1 && stack2[0] == '0') {
+      document.querySelector("#stack2").innerHTML = '';
+    }
+  }
+  function renderOutput() {
+      document.querySelector("#stack1").innerHTML = stack1.join('');
+    if (op != null) {
+      document.querySelector("#stack2").innerHTML = stack2.join("")+ ' ' + op;
+    }
+    if (stack2.length == 1 && stack2[0] == '0') {
+      document.querySelector("#stack2").innerHTML = '';
+    }
+  }
+  //初始化输出
+  function init1() {
+    stack1 = [0];
+  }
+  function init2() {
+    stack2 = [0];
+  }
+  function init(){
+    init1();
+    init2();
+  }
+  function toNum(arr){
+    return parseInt(arr.join(''));
   }
 </script>
 </html>
