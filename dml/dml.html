@@ -53,6 +53,10 @@
     .content {
       padding: 10px 100px;
       width: 100%;
+      height: 550px; 
+      background-color: black; 
+      color:white;
+      padding-top: 30px;
     }
 
     .content .my-btn {
@@ -105,17 +109,14 @@
     span{
       margin-left: 20px;
     } 
-    /* .name,.score,.rank,.gscore{
-      text-align: left;
-    } */
     h1{
       font-size: 36px;
-      margin-top: 20px;
       margin-bottom: 10px;
       font-family: inherit;
       font-weight: 500;
       line-height: 1.1;
       color: inherit;
+      margin-top: 20px;
     } 
     .container-fluid{
       position: fixed;
@@ -129,8 +130,53 @@
 
     } 
     .ans {
-      width: 50px;
+      width: 80px;
       height: 18px;
+    }
+    #quiz{
+      height: 350px;
+      background-color: rgb(79, 77, 77);
+      margin-bottom: 20px;
+      padding-top: 20px;  
+      display: none;
+    }
+    #quiz, #post {
+      transition: 2s;
+    }
+    .submit{
+      color: white;
+      background-color: orange;
+      margin-right: 29px;
+      float: right;
+    }
+    .logout{
+      display: none;
+      color: white;
+      background-color: orange;
+    }
+    #post{
+      height: 350px;
+      background-color: rgb(79, 77, 77);
+      margin-bottom: 20px;
+      padding-top: 20px;
+    }
+    .btn-success{
+      min-height: 30px; 
+      line-height: 30px; 
+      text-align: center;
+      background-color: green;
+      color: white;
+    }
+    .btn-warning{
+      min-height: 30px; 
+      line-height: 30px; 
+      text-align: center;
+      background-color: orange; 
+      right:0;
+      color: white;
+    }
+    .dm{
+      margin-left: 130px;
     }
   </style>
 </head>
@@ -139,12 +185,14 @@
   <nav class="navbar bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand">快乐运算:)</a>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Eamil" aria-label="Search">
-        <input class="form-control me-2" type="search" placeholder="Password" aria-label="Search">
-        <button type="button" class="btn btn-success text-nowrap">Sign in</button>
-        <button type="button" class="btn btn-danger text-nowrap">Sign up</button>
+      <form class="d-flex login_form" role="search">
+        <input id="username" class="form-control me-2" type="search" placeholder="Username" >
+        <input id="password" class="form-control me-2" type="password" placeholder="Password" >
+        <button type="button" id="sign_in" class="btn btn-success text-nowrap">Sign in</button>
+        <button type="button" id="sign_up" class="btn btn-danger text-nowrap">Sign up</button>
       </form>
+      <div class="logged-user"></div>
+      <button class="logout">log out</button>
     </div> 
   </nav> 
   <div class="p-5 mb-4 bg-light header">
@@ -163,16 +211,16 @@
       </div>
     </div>
   </div>
-  <div class="content" style="height: 550px; background-color: black; color:white;padding-top: 30px;">
+  <div class="content">
     <div class="row g-2">
-      <div id="quiz" class="col-md-5" style="height: 350px;background-color: rgb(79, 77, 77);margin-bottom: 20px;padding-top: 20px;  display: none;">
-        <span>请回答下列问题</span>
-        <table class="table table-dark table-hover" style="margin: 20px auto; width: 90%;">
+      <div id="quiz" class="col-md-5">
+        <span>请回答下列问题（保留两位小数）</span>
+        <table class="table table-dark table-hover" style="margin: 20px auto; width: 90%; margin-bottom: 0;">
           <thead>
             <tr>
               <th scope="col" class="col-md-2">序号</th>
-              <th scope="col" class="col-md-9">题目</th>
-              <th scope="col" class="col-md-1">答案</th>
+              <th scope="col" class="col-md-7">题目</th>
+              <th scope="col" class="col-md-3">答案</th>
             </tr>
           </thead>
           <tbody>
@@ -206,7 +254,7 @@
 
         <button class="submit">提交</button>
       </div>
-      <div id="post" class="col-md-5" style="height: 350px;background-color: rgb(79, 77, 77);margin-bottom: 20px;padding-top: 20px;">
+      <div id="post" class="col-md-5">
         <span>小试牛刀</span>
         <div class="btn-group dropup my-btn">
           <button type="button" class="btn btn-warning dropdown-toggle" style="border-radius: 0%;margin: 10px;margin-left: 20px;color: white;"
@@ -214,17 +262,20 @@
             选择难度
           </button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">白银</a></li>
             <li><a class="dropdown-item" href="#">青铜</a></li>
+            <li><a class="dropdown-item" href="#">白银</a></li>
+            <li><a class="dropdown-item" href="#">黄金</a></li>
             <li><a class="dropdown-item" href="#">王者</a></li>
           </ul>
         </div>
         <div class="info pd20">
-					<img src="images/logo.jpg" class="thumbnail" width="100em" height="100em" style="float:left">
-					<p class="name">姓名：尚未登陆</p>
-					<p class="score">分数：尚未登陆</p>
-					<p class="rank">排名：尚未登陆</p>
-					<p class="gscore">测试得分：</p>
+					<img src="images/logo.jpg" class="thumbnail" width="100em" height="100em" style="float:left;">
+          <div class="dm">
+					  <p class="name">姓名：尚未登陆</p>
+					  <p class="score">分数：尚未登陆</p>
+					  <p class="rank">排名：尚未登陆</p>
+					  <p class="gscore">测试得分：<span class="ggscore"></span></p>
+          </div>
 				</div>
         <div class="btn-group dropup my-btn">
           <button type="button" class="btn btn-warning" style="border-radius: 0%;margin: 50px;margin-left: 30px;color: white;margin-top: 20px;"
@@ -276,75 +327,15 @@
       </div>
     </div>
   </div>
-  <h1 style="display: block">To be continued...</h1>
+  <h1 style="display: block; position: absolute; left: 0; margin-top: -100px;">To be continued...</h1>
   </div>
   </div>
-  <nav class="navbar">
-    <div class="row1">
-      <div class="col-md-6 btn-success" style="min-height: 30px; line-height: 30px; text-align: center;background-color: green;">个人匹配</div>
-      <div class="col-md-6 btn-warning" style="min-height: 30px; line-height: 30px; text-align: center;background-color: orange;">多人对战</div> 
-    </div>
+  <nav class="navbar fixed-bottom bg-body-tertiary">
+      <div class="col-md-6 btn-success">个人匹配</div>
+      <div class="col-md-6 btn-warning">多人对战</div> 
   </nav>
 </body>
-<script type="text/javascript">  
-  console.log('begin');  
-  var btns = document.querySelector('.dropdown-menu').querySelectorAll('li');  
-  var quiz_list = []; 
-  for (var i = 0; i < btns.length; i++) {  
-    btns[i].addEventListener('click', showQuiz);  
-  }  
-  
-  var submit_btn = document.querySelector('.submit');  
-  submit_btn.addEventListener('click', () => {  
-    var quizNode = document.querySelector('#quiz');  
-    quizNode.style.display = 'none';  
-    var postNode = document.querySelector('#post');  
-    postNode.style.display = 'block';  
-  });  
-  
-  function showQuiz(event) {  
-    var difficulty = event.target.textContent || event.target.innerText;  
-    console.log('我点了，点的是谁？', difficulty);  
-    quiz_list = [];  
-  
-    for (var i = 0; i < 5; i++) {  
-      var quiz = generateQuiz();  
-      quiz_list.push(quiz); 
-    }  
-  
-    console.log('生成的题目是', quiz_list);  
-  
-    var tableRows = document.querySelector('.table').querySelectorAll('tr');  
-    for (var i = 0; i < Math.min(tableRows.length, quiz_list.length); i++) {  
-     
-      var td = tableRows[i].querySelector('td');  
-      if (td) {  
-    
-        td.innerText = quiz_list[i].join(' '); 
-      }  
-    }  
-  
-    var postNode = document.querySelector('#post');  
-    postNode.style.display = 'none';  
-    var quizNode = document.querySelector('#quiz');  
-    quizNode.style.display = 'block';  
-  }  
-  
-  function generateQuiz() {  
-    var quiz = [];  
-    for (var i = 0; i < 5; i++) {  
-      if (i % 2 == 0) {  
-        quiz.push(Math.round(Math.random() * 50));  
-      } else {  
-        quiz.push(generateOp());  
-      }  
-    }  
-    return quiz; 
-  }  
-  
-  function generateOp() {  
-    var ops = ['+', '-', '*', '/'];  
-    return ops[Math.floor(Math.random() * 4)];  
-  }  
-</script>
+<script type="text/javascript" src="calc.js"></script>
+<script type="text/javascript" src="login.js"></script>
+<script type="text/javascript" src="name.js"></script>  
 </html>
